@@ -72,16 +72,14 @@ class Running(Training):
     """Тренировка: бег."""
 
     COEFF_RUN_1: float = 18
-    COEFF_RUN_2: float = 20
+    COEFF_RUN_2: float = 1.79
 
     def get_spent_calories(self) -> float:
-        """Получить количество затраченных калорий во время бега."""
-
-        return (self.weight * (self.COEFF_RUN_1
-                * self.get_mean_speed()
-                - self.COEFF_RUN_2)
-                / self.M_IN_KM * (self.duration
-                * self.MINUTES_IN_HOUR))
+        """Рассчитать калории, затраченные при беге."""
+        return ((self.get_mean_speed() ** 2 // self.height
+                * self.CALORIES_MEAN_SPEED_2 * self.weight
+                + self.CALORIES_MEAN_SPEED_1 * self.weight)
+                * self.duration * self.MINUTES)
 
 
 class SportsWalking(Training):
@@ -100,11 +98,11 @@ class SportsWalking(Training):
         self.height = height
 
     def get_spent_calories(self) -> float:
-        """Калории, затраченные во время спортивной ходьбы."""
-        return (self.weight * (self.COEFF_SPORTWALK_1
-                + (self.get_mean_speed()**2 // self.height)
-                * self.COEFF_SPORTWALK_2)
-                * (self.duration * self.MINUTES_IN_HOUR))
+        """Рассчитать калории, затраченные при спортивной ходьбе."""
+        return ((self.COEFF_SPORTWALK_1 * self.weight
+                + (self.get_mean_speed() ** 2 // self.height)
+                * self.COEFF_SPORTWALK_2 * self.weight)
+                * self.duration * self.MINUTES_IN_HOUR)
 
 
 class Swimming(Training):
@@ -125,15 +123,11 @@ class Swimming(Training):
         self.lenght_pool = length_pool  # длинна бассейна в метрах
         self.count_pool = count_pool  # сколько раз проплыл бассейн
 
-    def get_mean_speed(self) -> float:
-        """Рассчёт скорости движения во время плавания."""
-        return (self.lenght_pool * self.count_pool
-                / self.M_IN_KM / self.duration)
-
     def get_spent_calories(self) -> float:
-        """Рассчёт калорий, затраченных во время плавания"""
+        """Рассчитать калории, затраченные при спортивной ходьбе."""
         return ((self.get_mean_speed() + self.COEFF_SWIM_1)
-                * self.COEFF_SWIM_2 * self.weight)
+                * self.COEFF_SWIM_2
+                * self.weight)
 
 
 def read_package(workout_type: str, data: list) -> Training:
@@ -147,8 +141,7 @@ def read_package(workout_type: str, data: list) -> Training:
 
 def main(training: Training) -> None:
     """Главная функция."""
-
-    info: InfoMessage = training.show_training_info()
+    info = training.show_training_info()
     print(info.get_message())
 
 
