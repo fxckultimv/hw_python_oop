@@ -84,6 +84,11 @@ class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
     COEFF_CALORIE_WALK_1: float = 0.035
     COEFF_CALORIE_WALK_2: float = 0.029
+    KM_TO_MSEK: float = 0.278
+    CENTR_TO_M: int = 100
+    SQR: int = 2
+    SEC_IN_MIN: int = 60
+    TRANSFER: int = round((Training.M_IN_KM / Training.MIN_IN_HOUR), 3)
 
     def __init__(self,
                  action: int,
@@ -97,7 +102,8 @@ class SportsWalking(Training):
     def get_spent_calories(self) -> float:
         """Рассчитать количество затраченных калорий."""
         return ((self.COEFF_CALORIE_WALK_1 * self.weight
-                + (self.get_mean_speed() ** 2 // self.height)
+                + ((self.get_mean_speed() * self.TRANSFER)
+                 ** self.SQR // (self.height / self.CENTR_TO_M))
                 * self.COEFF_CALORIE_WALK_2 * self.weight)
                 * self.duration * self.MIN_IN_HOUR)
 
