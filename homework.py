@@ -88,7 +88,9 @@ class SportsWalking(Training):
     CENTR_TO_M: int = 100
     SQR: int = 2
     SEC_IN_MIN: int = 60
-    TRANSFER: int = round((Training.M_IN_KM / Training.MIN_IN_HOUR / SEC_IN_MIN), 3)
+    TRANSFER: int = round((Training.M_IN_KM / Training.MIN_IN_HOUR
+                           / SEC_IN_MIN),
+                          3)
 
     def __init__(self,
                  action: int,
