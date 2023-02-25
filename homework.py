@@ -64,7 +64,7 @@ class Training:
 class Running(Training):
     """Тренировка: бег."""
     CALORIES_MEAN_SPEED_MULTIPLIER = 18
-    CALORIES_MEAN_SPEED_SHIFT = 1.79 
+    CALORIES_MEAN_SPEED_SHIFT = 1.79
 
     def __init__(self,
                  action: int,
