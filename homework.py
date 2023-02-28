@@ -1,5 +1,3 @@
-
-from abc import abstractmethod as abs
 from dataclasses import asdict, dataclass
 from typing import Dict, List, Type
 
@@ -47,7 +45,6 @@ class Training:
         """Рассчитать среднюю скорость движения."""
         return self.get_distance() / self.duration_h
 
-    @abs
     def get_spent_calories(self) -> float:
         """Рассчитать количество затраченных калорий."""
         raise NotImplementedError
